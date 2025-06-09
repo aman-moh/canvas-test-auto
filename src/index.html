@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Canva Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
@@ -13,57 +14,74 @@
             <button id="clear-canvas">Clear Canvas</button>
             <button id="export-png">Export PNG</button>
             <button id="export-jpg">Export JPG</button>
-            
+            <div class="zoom-controls">
+                <button id="zoom-out-btn" title="Zoom Out (Ctrl+-)">-</button>
+                <div class="zoom-slider-container">
+                    <input type="range" id="zoom-slider" min="25" max="400" value="100" step="1" title="Zoom Level">
+                    <span id="zoom-percentage-display" title="Current Zoom Level">100%</span>
+                </div>
+                <button id="zoom-in-btn" title="Zoom In (Ctrl++)">+</button>
+                <button id="zoom-fit-btn" title="Fit to Screen (Ctrl+1)">Fit</button>
+                <button id="zoom-fill-btn" title="Fill Screen (Not Implemented Yet)">Fill</button>
+            </div>
             <div class="canvas-size-controls">
                 <label>Width:</label>
-                <input type="number" id="canvas-width" value="800" min="100" max="2000">
+                <input type="number" id="canvas-width" value="800" min="100" max="7680">
                 <label>Height:</label>
-                <input type="number" id="canvas-height" value="600" min="100" max="2000">
+                <input type="number" id="canvas-height" value="600" min="100" max="4320">
                 <button id="resize-canvas">Resize</button>
+                <select id="preset-sizes">
+                    <option value="">Preset Sizes</option>
+                    <option value="800,600">800×600 (Default)</option>
+                    <option value="1920,1080">1920×1080 (FHD)</option>
+                    <option value="2560,1440">2560×1440 (2K)</option>
+                    <option value="3840,2160">3840×2160 (4K)</option>
+                    <option value="7680,4320">7680×4320 (8K)</option>
+                </select>
             </div>
         </div>
-        
         <!-- Main Content Area -->
         <div class="main-content">
             <!-- Left Sidebar -->
             <div class="sidebar">
                 <div class="image-library">
-                    <h3>Image Library</h3>
+                    <h3>Media Library</h3>
                     <div class="image-thumbnails" id="image-thumbnails">
                         <!-- Sample images will be loaded here -->
                     </div>
                 </div>
                 <div class="upload-area">
-                    <input type="file" id="file-input" accept="image/*" multiple>
+                    <input type="file" id="file-input" accept="image/*,video/mp4,video/webm,video/ogg" multiple>
                     <label for="file-input" class="file-input-label">
-                        📁 Upload Images
+                        <i class="fas fa-upload"></i> Upload Media
                     </label>
+                    <div class="video-url-area" style="margin-top: 15px;">
+                        <p style="margin-bottom: 5px; font-size: 0.9em;">Or add video from URL:</p>
+                        <input type="text" id="video-url-input" placeholder="Paste video URL here" style="width: calc(100% - 75px); padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-right: 5px;">
+                        <button id="add-video-url-btn" style="padding: 8px 12px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Add</button>
+                    </div>
                 </div>
             </div>
-            
             <!-- Canvas Area -->
             <div class="canvas-container">
                 <div id="canvas-wrapper">
                     <div id="konva-container"></div>
                 </div>
             </div>
-            
             <!-- Right Properties Panel -->
             <div class="properties-panel">
                 <div id="no-selection" class="no-selection">
                     Select an object to edit its properties
                 </div>
-                
                 <div id="selection-tools" style="display: none;">
                     <div class="tool-section" id="transform-tools">
                         <h4>Transform</h4>
-                        <button id="delete-btn">🗑️ Delete</button>
-                        <button id="duplicate-btn">📋 Duplicate</button>
-                        <button id="bring-forward">⬆️ Bring Forward</button>
-                        <button id="send-backward">⬇️ Send Backward</button>
-                        <button id="lock-btn">🔒 Lock Position</button>
+                        <button id="delete-btn"><i class="fas fa-trash"></i> Delete</button>
+                        <button id="duplicate-btn"><i class="fas fa-copy"></i> Duplicate</button>
+                        <button id="bring-forward"><i class="fas fa-arrow-up"></i> Bring Forward</button>
+                        <button id="send-backward"><i class="fas fa-arrow-down"></i> Send Backward</button>
+                        <button id="lock-btn"><i class="fas fa-lock"></i> Lock Position</button>
                     </div>
-                    
                     <div class="tool-section" id="visual-tools">
                         <h4>Visual Adjustments</h4>
                         <label>
@@ -79,7 +97,6 @@
                             <input type="range" id="contrast" min="-100" max="100" step="5" value="0">
                         </label>
                     </div>
-                    
                     <div class="tool-section" id="effects-tools">
                         <h4>Effects & Borders</h4>
                         <label>
@@ -103,8 +120,8 @@
             </div>
         </div>
     </div>
-
     <script src="https://unpkg.com/konva@9/konva.min.js"></script>
     <script src="js/app.js"></script>
+    <div id="hidden-video-elements-container" style="display: none; position: absolute; width: 0; height: 0; overflow: hidden;"></div>
 </body>
 </html>

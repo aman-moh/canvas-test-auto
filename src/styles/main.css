@@ -55,6 +55,58 @@ body {
     border-radius: 4px;
 }
 
+.canvas-size-controls select {
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 16px;
+}
+
+.zoom-controls button {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+    min-width: 40px;
+}
+
+.zoom-controls button:hover {
+    background: #218838;
+}
+
+#zoom-percentage {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    min-width: 45px;
+    text-align: center;
+    margin: 0 4px;
+}
+
+.zoom-hint {
+    font-size: 11px;
+    color: #666;
+    margin-left: 8px;
+    font-style: italic;
+}
+
 .main-content {
     display: flex;
     flex: 1;
@@ -145,6 +197,8 @@ body {
     align-items: center;
     background: #f0f0f0;
     position: relative;
+    overflow: auto; /* Enable scrolling when canvas is larger than container */
+    max-height: calc(100vh - 60px); /* Ensure it doesn't exceed viewport minus toolbar */
 }
 
 #canvas-wrapper {
@@ -152,6 +206,8 @@ body {
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow: hidden;
+    max-width: calc(100vw - 530px); /* Account for sidebar (250px) + properties panel (280px) */
+    max-height: calc(100vh - 100px); /* Account for toolbar and some padding */
 }
 
 .properties-panel {
@@ -243,3 +299,99 @@ body {
         width: 200px;
     }
 }
+/* Updated Zoom Controls Styling */
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Adjusted gap */
+    margin-left: 20px; /* Adjusted margin */
+}
+
+.zoom-controls button { /* General style for all buttons in this group */
+    background-color: #6c757d; /* A neutral gray */
+    color: white;
+    border: none;
+    padding: 8px 12px; /* Slightly larger padding */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    min-width: 45px; /* Ensure buttons have a decent minimum width */
+    text-align: center;
+}
+
+.zoom-controls button:hover {
+    background-color: #5a6268; /* Darker gray on hover */
+}
+
+/* Container for the percentage display and dropdown */
+.zoom-percentage-container {
+    position: relative; /* For potential dropdown absolute positioning if needed */
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    overflow: hidden; /* To keep children within rounded borders */
+}
+
+#zoom-percentage-display {
+    padding: 8px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #343a40;
+    background-color: #e9ecef; /* Light background for the text part */
+    min-width: 60px;
+    text-align: center;
+    border-right: 1px solid #ced4da; /* Separator line */
+}
+
+#zoom-preset-dropdown {
+    padding: 8px 6px;
+    font-size: 14px;
+    border: none; /* Border is on the container */
+    background-color: white;
+    cursor: pointer;
+    outline: none;
+    height: 100%; /* Match height of the text display */
+    border-radius: 0; /* Handled by container */
+}
+
+#zoom-preset-dropdown:hover {
+    background-color: #f8f9fa;
+}
+
+/* Specific styling for Fit/Fill if needed, or they can use the general button style */
+#zoom-fit-btn,
+#zoom-fill-btn {
+    /* background-color: #17a2b8; /* Example: A different color for these actions */
+    /* You can add specific styles here if desired */
+}
+
+/* #zoom-fill-btn:disabled { /* Example for disabled state if you implement it */
+/*    opacity: 0.6; */
+/*    cursor: not-allowed; */
+/* } */
+
+/* Remove or comment out old #zoom-percentage and .zoom-hint if they are fully replaced */
+/*
+#zoom-percentage { (old one)
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    min-width: 45px;
+    text-align: center;
+    margin: 0 4px;
+}
+
+.zoom-hint { (old one)
+    font-size: 11px;
+    color: #666;
+    margin-left: 8px;
+    font-style: italic;
+}
+*/
